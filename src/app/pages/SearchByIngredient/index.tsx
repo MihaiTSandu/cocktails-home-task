@@ -1,29 +1,57 @@
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
 import searchByIngredients from "../../../utils/searchByIngredientsApi";
 import searchIngredients from "../../../utils/searchIngredients";
+import {
+  IngredientButton,
+  StyledButton,
+  StyledContainer,
+  StyledDiv,
+} from "./style";
 
 const SearchByIngredient = () => {
-  const [displayChosenIngredients, setDisplayChosenIngredients] = useState<
-    Array<string>
-  >([]);
+  const [displayResults, setDisplayResults] = useState<Array<string>>([]);
+  const [chosenIngredients, setChosenIngredients] = useState<Array<string>>([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   useEffect(() => {
-    callApi();
+    callApiForAllIngredients();
   }, []);
 
-  const callApi = async () => {
+  const callApiForAllIngredients = async () => {
     try {
       const resp = await searchIngredients();
       setIngredientsList(resp.drinks);
     } catch {}
   };
 
-  const callDrinks = async () => {
+  const callApiForDrinks = async () => {
     try {
-      const resp = await searchByIngredients(displayChosenIngredients);
-      console.log(resp);
+      const resp = await searchByIngredients(chosenIngredients);
+      console.log(resp.drinks);
+      if (resp.drinks !== "None Found") {
+        setDisplayResults(resp.drinks.map((el: any) => el.strDrink));
+      } else {
+        setDisplayResults(["None available"]);
+      }
+      console.log(displayResults);
     } catch {}
+  };
+
+  const selectIngredients = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    if (chosenIngredients.includes((e.target as HTMLElement).innerHTML)) {
+      let index = chosenIngredients.indexOf(
+        (e.target as HTMLElement).innerHTML
+      );
+      setChosenIngredients(
+        chosenIngredients.filter((item, ind) => ind !== index)
+      );
+    } else {
+      setChosenIngredients([
+        ...chosenIngredients,
+        (e.target as HTMLElement).innerHTML,
+      ]);
+    }
   };
 
   return (
@@ -31,81 +59,21 @@ const SearchByIngredient = () => {
       <StyledDiv>
         {ingredientsList.map((el: any) => (
           <IngredientButton
-            selected={displayChosenIngredients.includes(el.strIngredient1)}
+            selected={chosenIngredients.includes(el.strIngredient1)}
             onClick={(e) => {
-              if (
-                displayChosenIngredients.includes(
-                  (e.target as HTMLElement).innerHTML
-                )
-              ) {
-                let index = displayChosenIngredients.indexOf(
-                  (e.target as HTMLElement).innerHTML
-                );
-                setDisplayChosenIngredients(
-                  displayChosenIngredients.filter((item, ind) => ind !== index)
-                );
-              } else {
-                setDisplayChosenIngredients([
-                  ...displayChosenIngredients,
-                  (e.target as HTMLElement).innerHTML,
-                ]);
-              }
-              console.log(displayChosenIngredients);
+              selectIngredients(e);
             }}
           >
             {el.strIngredient1}
           </IngredientButton>
         ))}
       </StyledDiv>
-      <StyledButton onClick={callDrinks}>Search</StyledButton>
+      <StyledButton onClick={callApiForDrinks}>Search</StyledButton>
+      {displayResults.map((el: any) => (
+        <p>{el}</p>
+      ))}
     </StyledContainer>
   );
 };
 
 export default SearchByIngredient;
-
-const ingredientButtonSelected = css`
-  background-color: #02e2ff;
-`;
-
-const IngredientButton = styled.span<{ selected?: boolean }>`
-  border-radius: 1rem;
-  height: 3rem;
-  width: 12%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  ${(p) => (p.selected ? ingredientButtonSelected : "")}
-
-  :hover {
-    cursor: pointer;
-    background-color: #02e2ff;
-  }
-`;
-
-const StyledDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const StyledButton = styled.button`
-  background-color: #02e2ff;
-  border: none;
-  border-radius: 1rem;
-  color: white;
-  padding: 1rem 2rem;
-  margin-top: 1.25rem;
-  margin-left: 1.25rem;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
-  width: 20%;
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;

@@ -10,12 +10,19 @@ export interface SearchFieldProps {
   value: string | undefined;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   onInputChange: (input: string) => void;
+  onCheckboxClick: any;
 }
 
-const SearchField = ({ value, onClick, onInputChange }: SearchFieldProps) => {
+const SearchField = ({
+  value,
+  onClick,
+  onInputChange,
+  onCheckboxClick,
+}: SearchFieldProps) => {
   return (
     <SearchDiv>
       <SearchInput
+        placeholder="Search for a drink"
         type="text"
         value={value}
         onInput={(event) => {
@@ -26,8 +33,9 @@ const SearchField = ({ value, onClick, onInputChange }: SearchFieldProps) => {
           }
         }}
       />
-
       <SearchButton onClick={onClick}>{translations.buttonText}</SearchButton>
+      <CheckboxText>Non-Alcoholic</CheckboxText>{" "}
+      <Checkbox type="checkbox" onClick={onCheckboxClick}></Checkbox>
     </SearchDiv>
   );
 };
@@ -35,7 +43,7 @@ const SearchField = ({ value, onClick, onInputChange }: SearchFieldProps) => {
 export default SearchField;
 
 const SearchButton = styled.button`
-  background-color: #02e2ff;
+  background-color: ${(p) => p.theme.primary};
   border: none;
   border-radius: 1rem;
   color: white;
@@ -56,9 +64,17 @@ const SearchDiv = styled.div`
 `;
 
 const SearchInput = styled.input`
-  border: 2px solid #02e2ff;
+  border: 2px solid ${(p) => p.theme.primary};
   border-radius: 1rem;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
+`;
+
+const CheckboxText = styled.p`
+  margin-left: 1.25rem;
+`;
+
+const Checkbox = styled.input`
+  margin-left: 0.5rem;
 `;
