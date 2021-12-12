@@ -8,7 +8,7 @@ import SearchField from "../../components/SearchField";
 const translations = {
   instructions: "Instructions",
   ingredients: "Ingredients",
-  noDrinkFound: "Sorry, we can't find the drink you search for.",
+  noDrinkFound: "No drink available",
 };
 
 const SearchByDrink = () => {
@@ -30,9 +30,7 @@ const SearchByDrink = () => {
       }
       setReturnedDrinks(resp.drinks);
 
-      setDrinkInstructions("");
       setDrinkImage(null);
-      setDrinkIngredients("");
 
       if (resp.drinks.length === 1) {
         setDrinkInstructions(resp.drinks[0].strInstructions);
@@ -71,7 +69,7 @@ const SearchByDrink = () => {
         elements={
           returnedDrinks?.length! > 0
             ? returnedDrinks?.map((el, id) => [el.strDrink, id])
-            : [["No drink available", 0]]
+            : [[translations.noDrinkFound, 0]]
         }
       />
       <DrinkInformations>
