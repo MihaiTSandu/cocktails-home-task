@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/cocktails-home-task/static/js/main.f1987e3d.chunk.js",
+    "main.js.map": "/cocktails-home-task/static/js/main.f1987e3d.chunk.js.map",
+    "runtime-main.js": "/cocktails-home-task/static/js/runtime-main.1185f948.js",
+    "runtime-main.js.map": "/cocktails-home-task/static/js/runtime-main.1185f948.js.map",
+    "static/js/2.b5e966a9.chunk.js": "/cocktails-home-task/static/js/2.b5e966a9.chunk.js",
+    "static/js/2.b5e966a9.chunk.js.map": "/cocktails-home-task/static/js/2.b5e966a9.chunk.js.map",
+    "index.html": "/cocktails-home-task/index.html",
+    "static/js/2.b5e966a9.chunk.js.LICENSE.txt": "/cocktails-home-task/static/js/2.b5e966a9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1185f948.js",
+    "static/js/2.b5e966a9.chunk.js",
+    "static/js/main.f1987e3d.chunk.js"
+  ]
+}
