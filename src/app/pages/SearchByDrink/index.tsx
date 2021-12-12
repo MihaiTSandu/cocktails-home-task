@@ -31,6 +31,8 @@ const SearchByDrink = () => {
       setReturnedDrinks(resp.drinks);
 
       setDrinkImage(null);
+      setDrinkIngredients("");
+      setDrinkInstructions("");
 
       if (resp.drinks.length === 1) {
         setDrinkInstructions(resp.drinks[0].strInstructions);
